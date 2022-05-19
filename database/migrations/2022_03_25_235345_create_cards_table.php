@@ -13,16 +13,22 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('cards', function (Blueprint $table) {
             $table->id();
+
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('bio')->default('Привет я начал использовать VirtualCard!');
+
+            $table->string('title');
+            $table->string('text');
+            $table->foreignId('scene_id')->constrained('scenes')->cascadeOnDelete();
+
+            $table->string('category_id');
+            $table->string('user_id');
+
             $table->string('image', 100)->nullable();
-            $table->string('banner', 100)->nullable();
-            $table->rememberToken();
+
+            $table->string('url',)->unique();
+
             $table->timestamps();
         });
     }
@@ -34,6 +40,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('cards');
     }
 };
